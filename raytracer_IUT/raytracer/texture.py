@@ -2,6 +2,7 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING
 from .vec3 import Color
+import noise
 
 if TYPE_CHECKING:
     from .hit import Hit
@@ -26,3 +27,21 @@ class Damier(Texture):
         if (int(u_idx) + int(v_idx)) % 2 == 0:
             return self.color1
         return self.color2
+
+
+
+class Bruit(Texture):
+    """Texture de bruit de Perlin grace à la librairie noise."""
+    def __init__(self, scale: float = 0.5, octaves: int = 4):
+        self.scale = scale
+        self.octaves = octaves
+
+    def couleur(self, hit: Hit) -> Color:
+        noise_value = self.perlin_noise(hit.point.x * self.scale, hit.point.y * self.scale, hit.point.z * self.scale)
+        val = max(0.0, min(1.0, noise_value))
+        return Color(val, val, val)
+
+    def perlin_noise(self, x: float, y: float, z: float) -> float:
+        if noise is not None:
+            return (noise.pnoise3(x, y, z, octaves=self.octaves) + 1.0) * 0.5
+        return (math.sin(x) + math.sin(y) + math.sin(z) + 3.0) / 6.0

@@ -2,7 +2,7 @@
 from raytracer import (
     Vec3, Color, AmbientLight, PointLight,
     Plane, Sphere, Cube, Camera, Scene, write_png,
-    Damier
+    Damier, Bruit
 )
 from time import time
 
@@ -21,6 +21,7 @@ if __name__ == "__main__":
     scene.add_object(floor)
     back = Plane(Vec3(0, 0, 1), 10.0)
     back.Couleur(Color(0.9, 0.7, 0.7))
+    back.Texture(Bruit(scale=0.2))
     back.Kd(0.7)
     back.Ka(0.3)
     back.Ks(0.1)
