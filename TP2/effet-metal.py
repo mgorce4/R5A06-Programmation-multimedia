@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from random import randint
 from math import sin, pi
-from noise import pnoise2
 
 from PIL import Image, ImageDraw
 
@@ -9,13 +8,11 @@ from PIL import Image, ImageDraw
 def generer_image_sinus(
     largeur: int,
     hauteur: int,
-    periode: float = 100.0,
-    echelle_bruit: float = 100.0,
-    perturbation: float = 100.0
+    periode: float = 100.0
 ) -> Image.Image:
     """
     Génère une image dont la couleur de chaque pixel
-    dépend d'un sinus de x + y perturbé par du bruit de Perlin.
+    dépend d'un sinus de x + y (effet métal sans perturbation).
     """
 
     image = Image.new("RGB", (largeur, hauteur))
@@ -24,19 +21,10 @@ def generer_image_sinus(
     for y in range(hauteur):
         for x in range(largeur):
 
-            # Bruit de Perlin 
-            bruit = pnoise2(
-                x / echelle_bruit,
-                y / echelle_bruit,
-                octaves=4,
-                persistence=0.5,
-                lacunarity=2.0
-            )
+            # Position sans perturbation
+            position = x + y
 
-            # On perturbe x + y avec le bruit de Perlin
-            position = x + y + bruit * perturbation
-
-            # On applique le sinus sur la position perturbée
+            # On applique le sinus sur la position
             valeur = sin(2 * pi * position / periode)
 
             # On change l'intensité de la couleur en fonction de la valeur du sinus
@@ -57,14 +45,12 @@ if __name__ == "__main__":
     largeur = 500
     hauteur = 500
 
-    print("Génération de l'image avec sinus + bruit de Perlin...")
+    print("Génération de l'image avec sinus...")
 
     image = generer_image_sinus(
         largeur,
         hauteur,
-        periode=100,
-        echelle_bruit=100,
-        perturbation=100
+        periode=100
     )
 
-    image.show()
+    image.show()
