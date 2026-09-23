@@ -76,24 +76,36 @@ class Cube(Object3D):
 
         p = o + d * t
 
+        # position du point relative au coin min (la texture démarre au coin du cube)
+        local = p - self.mn
+
         # Determine geometric normal from side_min (the entering face if t==tmin; else exiting face for inside rays)
+        # les coordonnées (u, v) sont les deux axes parallèles à la face touchée
         if side_min == 0:
             n = Vec3(-1, 0, 0)
+            u, v = local.z, local.y
         elif side_min == 1:
             n = Vec3(1, 0, 0)
+            u, v = local.z, local.y
         elif side_min == 2:
             n = Vec3(0, -1, 0)
+            u, v = local.x, local.z
         elif side_min == 3:
             n = Vec3(0, 1, 0)
+            u, v = local.x, local.z
         elif side_min == 4:
             n = Vec3(0, 0, -1)
+            u, v = local.x, local.y
         else:
             n = Vec3(0, 0, 1)
+            u, v = local.x, local.y
 
         h.t = t
         h.point = p
         h.normal = n
         h.obj = self
+        h.u = u
+        h.v = v
         # Orient normal to oppose the ray (for correct shading)
         if d.dot(n) > 0.0:
             n = Vec3(-n.x, -n.y, -n.z)
