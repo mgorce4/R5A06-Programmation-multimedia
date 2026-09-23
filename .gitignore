@@ -3,3 +3,5 @@ TP2/out.avi
 TP2/out.zip
 TP1/anim_fond.avi
 raytracer_IUT/RESUME_TP.md
+__pycache__/*
+*.pyc

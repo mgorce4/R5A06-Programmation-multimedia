@@ -2,12 +2,12 @@
 from raytracer import (
     Vec3, Color, AmbientLight, PointLight,
     Plane, Sphere, Cube, Camera, Scene, write_png,
-    Damier, Bruit
+    Damier, Bruit, Rubiks
 )
 from time import time
 
 if __name__ == "__main__":
-    NX, NY = 400, 300
+    NX, NY = 800, 600
     scene = Scene()
     scene.add_light(AmbientLight(Color(1, 1, 1)))
     scene.add_light(PointLight(Vec3(10, 15, 10), Color(1, 1, 1)))
@@ -39,7 +39,8 @@ if __name__ == "__main__":
 
     c3 = Cube(Vec3(3.5-1.0, 4.0-1.0, 5.0-1.0), Vec3(3.5+1.0, 4.0+1.0, 5.0+1.0))
     c3.Couleur(Color(1.0, 1.0, 1.0))
-    c3.Transparence(0.85)
+    c3.Texture(Rubiks(taille=2/3))
+    # c3.Transparence(0.85)
     c3.Reflexion(0.15)
     c3.Milieu_int(1.5)
     scene.add_object(c3)
