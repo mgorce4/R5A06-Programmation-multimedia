@@ -3,7 +3,7 @@ from .vec3 import Vec3, Color, clamp01, mix, BLACK, WHITE
 from .ray import Ray
 from .hit import Hit
 from .material import Material
-from .texture import Texture, Damier, Bruit, Rubiks
+from .texture import Texture, Damier, Bruit, Rubiks, TextureImage
 from .scene import Scene
 from .camera import Camera
 from .image_io import write_ppm, write_png

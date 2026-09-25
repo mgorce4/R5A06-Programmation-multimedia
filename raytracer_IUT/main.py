@@ -2,12 +2,13 @@
 from raytracer import (
     Vec3, Color, AmbientLight, PointLight,
     Plane, Sphere, Cube, Camera, Scene, write_png,
-    Damier, Bruit, Rubiks
+    Damier, Bruit, Rubiks, TextureImage
 )
 from time import time
+from pathlib import Path
 
 if __name__ == "__main__":
-    NX, NY = 800, 600
+    NX, NY = 800, 600 #3200, 2400 #800, 600
     scene = Scene()
     scene.add_light(AmbientLight(Color(1, 1, 1)))
     scene.add_light(PointLight(Vec3(10, 15, 10), Color(1, 1, 1)))
@@ -28,12 +29,15 @@ if __name__ == "__main__":
     scene.add_object(back)
     s1 = Sphere(Vec3(2.5, 4.0, 0.0), 2.0)
     s1.Couleur(Color(0.75, 0.75, 1.0))
+    s1.Texture(TextureImage(f"{Path(__file__).parent}/pokeball.jpg", decalage=0.25))
+    s1.Reflexion(0.5)
     s1.Ks(0.6)
     s1.Kd(0.8)
     s1.Ka(0.3)
     scene.add_object(s1)
     s2 = Sphere(Vec3(-3.5, 3.0, 0.5), 3.0)
     s2.Couleur(Color(1.0, 0.5, 0.5))
+    s2.Texture(TextureImage(f"{Path(__file__).parent}/dragonball.jpg", decalage=0.9, taille=0.9))
     s2.Reflexion(0.75)
     scene.add_object(s2)
 

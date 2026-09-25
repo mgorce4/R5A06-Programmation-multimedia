@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from random import Random
 from .vec3 import Color
 import noise
+from PIL import Image
 
 if TYPE_CHECKING:
     from .hit import Hit
@@ -94,3 +95,20 @@ class Bruit(Texture):
         if noise is not None:
             return (noise.pnoise3(x, y, z, octaves=self.octaves) + 1.0) * 0.5
         return (math.sin(x) + math.sin(y) + math.sin(z) + 3.0) / 6.0
+
+
+class TextureImage(Texture):
+    """Texture qui plaque une image sur l'objet grâce aux coordonnées (u, v) du Hit."""
+    def __init__(self, chemin: str, taille: float = 1.0, decalage: float = 0.0):
+        self.taille = taille
+        self.decalage = decalage
+        img = Image.open(chemin).convert("RGB")
+        self.largeur, self.hauteur = img.size
+        self.pixels = [Color(r / 255, g / 255, b / 255) for (r, g, b) in img.getdata()]
+
+    def couleur(self, hit: Hit) -> Color:
+        u = (hit.u / self.taille + self.decalage) % 1.0
+        v = (hit.v / self.taille) % 1.0
+        x = int(u * (self.largeur - 1))
+        y = int((1.0 - v) * (self.hauteur - 1))
+        return self.pixels[y * self.largeur + x]
